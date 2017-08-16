@@ -30,7 +30,6 @@ class Mail:
         return "mail send : " + result
 
 if __name__ == '__main__':
-    test()
     start_schedule()
     app.run()
 
