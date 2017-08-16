@@ -6,11 +6,14 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import parseaddr, formataddr
+from os import path
 import smtplib
+import mimetypes
 
-mail_host = "smtp.mxhichina.com"
-mail_username = "hjieqian_statistics@htouhui.com"
-mail_password = "htouhui@123"
+
+mail_host = "smtp.163.com"
+mail_username = "wangnan_1001@163.com"
+mail_password = "wn19921212"
 me = "hello" + "<" + mail_username + ">"
 
 
@@ -59,13 +62,31 @@ def html_mail(to_list, subject, content):
 def attach_mail(file_list, to_list, subject, content):
     # 创建一个带附件的实例
     msg = MIMEMultipart()
-    msg.attach(MIMEText(content, _subtype='plain', _charset='utf-8'))
+    # msg.attach(MIMEText(content, _subtype='plain', _charset='utf-8'))
+
+    # 将图片引用到正文
+    # msg.attach(MIMEText('<html><body><h1>Hello</h1>'<p><img src="cid:0"></p></body></html>', 'html', 'utf-8'))
 
     # 添加附件
     for attach_file in file_list:
-        attachment = MIMEText(open(attach_file, 'rb').read())
-        attachment.add_header('Content-Disposition', 'attachment', filename=attach_file.name)
-        msg.attach(attachment)
+        with open(attach_file, 'rb') as f:
+            mime_type, mime_encoding = mimetypes.guess_type(path.basename(attach_file))
+            if (mime_encoding is None) and (mime_type is None):
+                mime_type = 'application/octet-stream'
+
+            maintype, subtype = mime_type.split('/', 1)
+
+            mime = MIMEBase(maintype, subtype)
+            mime.set_payload(f.read())
+            encoders.encode_base64(mime)
+            mime.add_header('Content-Disposition', 'attachment', filename=path.basename(attach_file))
+
+            # # 将图片引用到正文中时使用
+            # mime.add_header('Content-ID', '<0>')
+            # mime.add_header('X-Attachment-Id', '0')
+
+            f.close()
+            msg.attach(mime)
 
     # 加邮件头
     msg['From'] = me
@@ -83,12 +104,3 @@ def attach_mail(file_list, to_list, subject, content):
     except Exception, e:
         print str(e)
         return False
-
-
-def test():
-    to_address = 'nan.wang@htouhui.com'
-    sub = '你好'
-    cont = '<html><body><h1>你好!</h1></body></html>'
-    html_mail([to_address, ], sub, cont)
-    simple_mail([to_address, ], sub, cont)
-

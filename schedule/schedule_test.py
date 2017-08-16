@@ -1,17 +1,42 @@
 # -*- coding:utf-8 -*-
 from apscheduler.schedulers.background import BackgroundScheduler
 from log import logger
+from datebase import sql, db_util
+from mail import mail_test
+from util import excel_util
 import time
+import os
 
 
 def my_job():
     logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
 
 
+def send_mail():
+    to_address = 'nan.wang@htouhui.com'
+    sub = '你好'
+    cont = '<html><body><h1>你好!</h1></body></html>'
+    data = db_util.select(sql.sql)
+    data.to_csv(u'D:/用户目录/我的图片/test.csv', index=False, index_label=None)
+    base_path = os.getcwd()
+    print base_path
+    csv_path, xls_path = base_path + 'test.csv', base_path + 'test.xls'
+    if os.path.exists(csv_path):
+        os.rmdir(csv_path)
+    if os.path.exists(xls_path):
+        os.rmdir(xls_path)
+
+    excel_util.csv_to_xls(csv_path)
+    mail_test.attach_mail([xls_path, ], [to_address, ], sub, cont)
+
+
 def start_schedule():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(my_job, 'interval', seconds=5)
+    # scheduler.add_job(my_job, 'interval', seconds=5)
+    scheduler.add_job(send_mail, 'interval', minutes=5)
     scheduler.start()
+
+send_mail()
 
 """
 cron定时调度（某一定时时刻执行）

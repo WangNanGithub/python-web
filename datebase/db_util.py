@@ -28,11 +28,15 @@ def close_connection(db):
 
 
 # 执行SQL语句返回查询结果
-def select(db, sql):
+def select(sql):
+    db = open_connection()
+
     cursor = db.cursor()
     cursor.execute(sql)
     data = cursor.fetchall()
     pd_df = pd.DataFrame(np.array(data), columns=zip(*cursor.description)[0])
+
+    close_connection(db)
     return pd_df
 
 
