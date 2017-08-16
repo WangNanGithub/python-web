@@ -1,11 +1,12 @@
 # -*- coding:utf-8 -*-
 from apscheduler.schedulers.background import BackgroundScheduler
+from log import logger
 from mail.mail_test import send_mail
 import time
 
 
 def my_job():
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
 
 
 def start_schedule():

@@ -2,6 +2,7 @@
 
 import web
 from schedule.schedule_test import start_schedule
+from mail.mail_test import test
 
 # URL 映射
 urls = (
@@ -20,6 +21,7 @@ class Hello:
 
 
 if __name__ == '__main__':
+    test()
     start_schedule()
     app.run()
 

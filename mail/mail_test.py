@@ -85,7 +85,7 @@ def attach_mail(file_list, to_list, subject, content):
         return False
 
 
-if __name__ == '__main__':
+def test():
     to_address = 'nan.wang@htouhui.com'
     sub = '你好'
     cont = '<html><body><h1>你好!</h1></body></html>'
