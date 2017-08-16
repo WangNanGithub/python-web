@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from apscheduler.schedulers.background import BackgroundScheduler
 from log import logger
-from mail.mail_test import send_mail
 import time
 
 
