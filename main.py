@@ -1,12 +1,12 @@
-# -*- coding:utf-8 -*-
-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import web
 from schedule.schedule_test import start_schedule
 from mail.mail_test import test
 
 # URL 映射
 urls = (
-    '/hello', 'hello',
+    '/hello', 'Hello',
 )
 
 app = web.application(urls, globals())
