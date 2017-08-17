@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import web
-from schedule.schedule_test import start_schedule
-from mail.mail_test import test
+from schedule.schedule_manager import *
+from mail.mail_util import *
 
 # URL 映射
 urls = (
@@ -26,8 +26,7 @@ class Mail:
         pass
 
     def GET(self):
-        result = test()
-        return "mail send : " + result
+        send_mail()
 
 if __name__ == '__main__':
     start_schedule()

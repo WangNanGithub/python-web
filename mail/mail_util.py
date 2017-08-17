@@ -6,6 +6,7 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import parseaddr, formataddr
+from log import logger
 from os import path
 import smtplib
 import mimetypes
@@ -62,7 +63,7 @@ def html_mail(to_list, subject, content):
 def attach_mail(file_list, to_list, subject, content):
     # 创建一个带附件的实例
     msg = MIMEMultipart()
-    # msg.attach(MIMEText(content, _subtype='plain', _charset='utf-8'))
+    msg.attach(MIMEText(content, _subtype='html', _charset='utf-8'))
 
     # 将图片引用到正文
     # msg.attach(MIMEText('<html><body><h1>Hello</h1>'<p><img src="cid:0"></p></body></html>', 'html', 'utf-8'))
@@ -102,5 +103,5 @@ def attach_mail(file_list, to_list, subject, content):
         s.close()
         return True
     except Exception, e:
-        print str(e)
+        logger.exception(e)
         return False
