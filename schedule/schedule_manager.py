@@ -21,7 +21,7 @@ def send_mail():
     """
 
     # 查询数据
-    data = db_util.select(sql.sql)
+    data = db_util.select(None, sql.sql)
     data['user_id'] = data['user_id'].astype('string')
     data['id'] = data['id'].astype('string')
     data.to_excel(datetime.now().strftime('%Y-%m-%d') + '-data.xls', sheet_name='Sheet1', index=False, engine='xlsxwriter')
@@ -36,6 +36,3 @@ def start_schedule():
     scheduler = BackgroundScheduler()
     scheduler.add_job(send_mail, 'interval', minutes=5)
     scheduler.start()
-
-send_mail()
-

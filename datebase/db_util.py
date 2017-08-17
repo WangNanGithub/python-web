@@ -28,28 +28,32 @@ def close_connection(db):
 
 
 # 执行SQL语句返回查询结果
-def select(sql):
-    db = open_connection()
-
-    cursor = db.cursor()
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    pd_df = pd.DataFrame(np.array(data), columns=zip(*cursor.description)[0])
-
-    close_connection(db)
-    return pd_df
+def select(sql, db=None):
+    flag = False
+    try:
+        if db is None:
+            flag = True
+            db = open_connection()
+        cursor = db.cursor()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        pd_df = pd.DataFrame(np.array(data), columns=zip(*cursor.description)[0])
+        return pd_df
+    finally:
+        if flag:
+            close_connection(db)
 
 
 # 插入数据
-def insert(db, sql,  param):
-    cursor = db.cursor()
-    cursor.execute(sql, param)
-    db.commit()
-
-
-# DataFrame保存为Excel文件
-def to_excel(date_frame, file_name):
-    writer = pd.ExcelWriter(file_name)
-    date_frame.to_excel(writer, 'Sheet1')
-    date_frame.to_excel(writer, 'Sheet2')
-    writer.save()
+def insert(sql,  param, db=None):
+    flag = False
+    try:
+        if db is None:
+            flag = True
+            db = open_connection()
+        cursor = db.cursor()
+        cursor.execute(sql, param)
+        db.commit()
+    finally:
+        if flag:
+            close_connection(db)
