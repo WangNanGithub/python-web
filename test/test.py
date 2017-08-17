@@ -3,8 +3,9 @@
 from datebase import db_util
 import pandas as pd
 
+
 def update_pdl_channel():
-    data = pd.read_excel(ur'C:/Users/Administrator/Desktop/现金贷渠道识别号.xlsx', sheetname='Sheet3', encoding='utf-8')
+    data = pd.read_excel(ur'../resource/现金贷渠道识别号.xlsx', sheetname='Sheet3', encoding='utf-8')
     sql = """
         INSERT INTO `pdl_channels` ( `channel_no`, `name`, `channel` ) VALUES( %s, %s, %s )
     """
