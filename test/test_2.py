@@ -12,4 +12,8 @@ merge_after = merge_after.fillna({u'渠道': '', u'注册数': 0, u'首贷订单
 merge_after = merge_after.sort_values(by=[u'日期', u'渠道'])
 print merge_after.head()
 # 保存文件
-merge_after.to_excel(r'../resource/0701-0817.xls', sheet_name='Sheet1', index=False, engine='xlsxwriter')
+# merge_after.to_excel(r'../resource/0701-0817.xls', sheet_name='Sheet1', index=False, engine='xlsxwriter')
+
+
+df = pd.concat([reg, req], axis=1)
+print df.head()
