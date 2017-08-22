@@ -70,7 +70,7 @@ def attach_mail(file_list, to_list, subject, content):
 
     # 添加附件
     for attach_file in file_list:
-        with open(attach_file, 'rb') as f:
+        with open(str(attach_file).decode('utf-8'), 'rb') as f:
             mime_type, mime_encoding = mimetypes.guess_type(path.basename(attach_file))
             if (mime_encoding is None) and (mime_type is None):
                 mime_type = 'application/octet-stream'

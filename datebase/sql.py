@@ -4,5 +4,5 @@
 """
 
 sql = """
-  SELECT id, user_id FROM `pdl_loan_order` LIMIT 0, 1000  
+  SELECT id AS '订单ID', user_id AS '用户ID' FROM `pdl_loan_order` LIMIT 0, 1000  
 """
